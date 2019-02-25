@@ -24,11 +24,15 @@ class BikeAccessRequestView(ModelViewSet):
         return BikeAccessRequest.objects.filter(bike=self.kwargs['bike_pk'])
 
 class BikeStatusView(ModelViewSet):
-    queryset = BikeStatus.objects.all()
     serializer_class = BikeStatusSerializer
     permission_classes = (AllowAny,)
 
+    def get_queryset(self):
+        return BikeStatus.objects.filter(bike=self.kwargs['bike_pk'])
+
 class RideSummaryView(ModelViewSet):
-    queryset = RideSummary.objects.all()
     serializer_class = RideSummarySerializer
     permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        return RideSummary.objects.filter(bike=self.kwargs['bike_pk'])
