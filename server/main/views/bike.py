@@ -1,6 +1,5 @@
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.generics import ListAPIView
-from django.db.models import Q
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from ..models.bike import Bike, BikeAccess, BikeAccessRequest, BikeStatus, RideSummary
 from ..serializers.bike import (BikeSerializer, BikeAccessSerializer, BikeAccessRequestSerializer,
@@ -45,6 +44,6 @@ class DriverBikes(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        bikes = BikeAccess.objects.filter(Q(user=self.request.user)| Q(bike__admin=self.request.user) )
+        bikes = BikeAccess.objects.filter(user=self.request.user )
         return bikes
 

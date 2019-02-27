@@ -132,6 +132,7 @@ class UserProfileRegistrationManager(models.Manager):
             user.delete()
 
 
+
 class UserProfile(base_models.TimeStampedModel, Verification):
     """
     A model for user profile that also stores verification key.
@@ -140,17 +141,16 @@ class UserProfile(base_models.TimeStampedModel, Verification):
 
     ACTIVATED = "ALREADY ACTIVATED"
 
-
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,  related_name='profile'
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
 
     verification_key = models.CharField(
         max_length=40
     )
+
     image = models.ImageField(blank=True, null=False, upload_to = 'images/bikes/')
     phn_no = models.CharField(null=True, max_length=10, validators=[RegexValidator(regex='^.{10}$', message='Length has to be 10', code='nomatch')])
-
 
     objects = UserProfileRegistrationManager()
 
