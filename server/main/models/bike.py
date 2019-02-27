@@ -39,7 +39,7 @@ class BikeStatus(models.Model):
 class RideSummary(models.Model):
     ride_coordinates = models.TextField()
     driver = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='summaries')
     avg_speed = models.IntegerField(default=0)
     start_time = models.DateTimeField(auto_now=True)
     end_time = models.DateTimeField(auto_now_add=True)
@@ -48,14 +48,14 @@ class RideSummary(models.Model):
         return str(self.bike) + "-" + str(self.start_time)
 
 class BikeAccess(models.Model):
-    bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='access')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.bike) + "-" + str(self.user)
 
 class BikeAccessRequest(models.Model):
-    bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='requests')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

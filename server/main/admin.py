@@ -9,6 +9,14 @@ MySpecialAdmin = lambda model: type('SubClass'+model.__name__, (admin.ModelAdmin
 })
 
 from .models.accounts import UserProfile
+from .models.bike import Bike, BikeAccess, BikeAccessRequest, BikeStatus, RideSummary
+
+admin.site.register(Bike, MySpecialAdmin(Bike))
+admin.site.register(BikeAccess, MySpecialAdmin(BikeAccess))
+admin.site.register(BikeAccessRequest, MySpecialAdmin(BikeAccessRequest))
+admin.site.register(BikeStatus, MySpecialAdmin(BikeStatus))
+admin.site.register(RideSummary, MySpecialAdmin(RideSummary))
+
 
 
 @admin.register(UserProfile)

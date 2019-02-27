@@ -1,7 +1,10 @@
 from rest_framework.viewsets import ModelViewSet, ViewSet
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import ListAPIView
+from django.db.models import Q
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from ..models.bike import Bike, BikeAccess, BikeAccessRequest, BikeStatus, RideSummary
-from ..serializers.bike import BikeSerializer, BikeAccessSerializer, BikeAccessRequestSerializer, BikeStatusSerializer, RideSummarySerializer
+from ..serializers.bike import (BikeSerializer, BikeAccessSerializer, BikeAccessRequestSerializer,
+                                        BikeStatusSerializer, RideSummarySerializer, DriverAccessSerializer)
 
 class BikeView(ModelViewSet):
     queryset = Bike.objects.all()
@@ -36,3 +39,12 @@ class RideSummaryView(ModelViewSet):
 
     def get_queryset(self):
         return RideSummary.objects.filter(bike=self.kwargs['bike_pk'])
+
+class DriverBikes(ListAPIView):
+    serializer_class = DriverAccessSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        bikes = BikeAccess.objects.filter(Q(user=self.request.user)| Q(bike__admin=self.request.user) )
+        return bikes
+

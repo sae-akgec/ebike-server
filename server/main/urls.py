@@ -4,7 +4,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework import permissions
 from .views.accounts import (UserEmailVerificationAPIView, UserProfileAPIView, UserRegistrationAPIView,
                            UserLoginView, PasswordResetAPIView, PasswordResetConfirmView, UpdateProfileAPIView)
-from .views.bike import BikeAccessRequestView, BikeView, BikeAccessView, RideSummaryView, BikeStatusView
+from .views.bike import BikeAccessRequestView, BikeView, BikeAccessView, RideSummaryView, BikeStatusView, DriverBikes
 
 bike_router = routers.DefaultRouter()
 bike_router.register(r'bikes', BikeView)
@@ -27,6 +27,7 @@ urlpatterns = [
    url(r'^auth/verify/(?P<verification_key>.+)/$', UserEmailVerificationAPIView.as_view(), name='email_verify'),
    url(r'^auth/password_reset/$', PasswordResetAPIView.as_view(), name='password_change'),
    url(r'^auth/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+   url(r'^user/bikes', DriverBikes.as_view(), name='driver_bikes'),
    url(r'^user/profile/$', UserProfileAPIView.as_view(), name='user_profile'),
    url(r'^user/profile/update$', UpdateProfileAPIView.as_view(), name='user_profile'),
    url(r'^', include(bike_router.urls), name='bikes'),

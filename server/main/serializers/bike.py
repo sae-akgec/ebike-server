@@ -26,3 +26,9 @@ class RideSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = RideSummary
         fields = '__all__'
+
+class DriverAccessSerializer(serializers.ModelSerializer):
+    bike = BikeSerializer()
+    class Meta:
+        model = BikeAccess
+        fields = '__all__'
