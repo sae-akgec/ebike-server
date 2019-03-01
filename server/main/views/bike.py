@@ -47,3 +47,11 @@ class DriverBikes(ListAPIView):
         bikes = BikeAccess.objects.filter(user=self.request.user )
         return bikes
 
+class DriverHistory(ListAPIView):
+    serializer_class = RideSummarySerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        bikes = RideSummary.objects.filter(driver=self.request.user)
+        return bikes
+

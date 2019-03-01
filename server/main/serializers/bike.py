@@ -23,6 +23,7 @@ class BikeStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RideSummarySerializer(serializers.ModelSerializer):
+    bike = BikeSerializer(read_only=True)
     class Meta:
         model = RideSummary
         fields = '__all__'
