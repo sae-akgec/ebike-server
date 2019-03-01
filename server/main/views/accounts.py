@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from ..models.accounts import UserProfile
 from ..serializers.accounts import (UserRegistrationSerializer, UserLoginSerializer, UserSerializer,
- UserProfileSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, UpdateProfileSerializer)
+ UserProfileSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, UpdateProfileSerializer, ProfileUserSerializer)
 
 User = get_user_model()
 
@@ -113,6 +113,23 @@ class UserProfileAPIView(generics.RetrieveAPIView):
             return self.request.user.userprofile
         except UserProfile.DoesNotExist:
             raise Http404
+
+
+class UserByEmailView(views.APIView):
+    """
+    docstring here
+        :param APIView: 
+    """
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request, *args, **kwargs):
+        user_obj = User.objects.filter(email=request.data.get("email_or_username")).first() or User.objects.filter(username=request.data.get("email_or_username")).first()
+        if user_obj is not None:
+            serializer = ProfileUserSerializer(user_obj)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            msg = {"error":"Account with this email/username does not exists"}
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateProfileAPIView(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, )

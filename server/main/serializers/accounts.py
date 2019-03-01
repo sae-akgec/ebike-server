@@ -168,7 +168,7 @@ class ProfileUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'image', 'phn_no']
+        fields = ['id','email', 'first_name', 'last_name', 'image', 'phn_no']
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
@@ -222,3 +222,5 @@ class UserLoginSerializer(JSONWebTokenSerializer):
         else:
             msg = _('Account with this email/username does not exists')
             raise serializers.ValidationError(msg)
+
+    

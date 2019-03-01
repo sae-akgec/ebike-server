@@ -3,7 +3,7 @@ from rest_framework_nested import routers
 from rest_framework.documentation import include_docs_urls
 from rest_framework import permissions
 from .views.accounts import (UserEmailVerificationAPIView, UserProfileAPIView, UserRegistrationAPIView,
-                           UserLoginView, PasswordResetAPIView, PasswordResetConfirmView, UpdateProfileAPIView)
+                           UserLoginView, PasswordResetAPIView, PasswordResetConfirmView, UpdateProfileAPIView, UserByEmailView)
 from .views.bike import BikeAccessRequestView, BikeView, BikeAccessView, RideSummaryView, BikeStatusView, DriverBikes, DriverHistory
 
 bike_router = routers.DefaultRouter()
@@ -31,6 +31,7 @@ urlpatterns = [
    url(r'^user/history', DriverHistory.as_view(), name='driver_history'),
    url(r'^user/profile/$', UserProfileAPIView.as_view(), name='user_profile'),
    url(r'^user/profile/update$', UpdateProfileAPIView.as_view(), name='user_profile'),
+   url(r'^user/get', UserByEmailView.as_view(), name='get_user'),
    url(r'^', include(bike_router.urls), name='bikes'),
    url(r'^', include(bike_nested_router.urls), name='bike'),
 ]

@@ -51,6 +51,9 @@ class BikeAccess(models.Model):
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='access')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('bike', 'user',)
+
     def __str__(self):
         return str(self.bike) + "-" + str(self.user)
 
@@ -58,5 +61,8 @@ class BikeAccessRequest(models.Model):
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, related_name='requests')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('bike', 'user',)
+        
     def __str__(self):
         return str(self.bike) + "-" + str(self.user)
