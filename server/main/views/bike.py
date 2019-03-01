@@ -3,7 +3,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from ..models.bike import Bike, BikeAccess, BikeAccessRequest, BikeStatus, RideSummary
 from ..serializers.bike import (BikeSerializer, BikeAccessSerializer, BikeAccessRequestSerializer,
-                                        BikeStatusSerializer, RideSummarySerializer, DriverAccessSerializer)
+                                        BikeStatusSerializer, RideSummarySerializer, DriverAccessSerializer,
+                                        RideHistorySerializer, DriverHistorySerializer)
 
 class BikeView(ModelViewSet):
     queryset = Bike.objects.all()
@@ -36,6 +37,12 @@ class RideSummaryView(ModelViewSet):
     serializer_class = RideSummarySerializer
     permission_classes = (AllowAny,)
 
+    
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return RideHistorySerializer
+        return super(RideSummaryView, self).get_serializer_class()
+
     def get_queryset(self):
         return RideSummary.objects.filter(bike=self.kwargs['bike_pk'])
 
@@ -48,7 +55,7 @@ class DriverBikes(ListAPIView):
         return bikes
 
 class DriverHistory(ListAPIView):
-    serializer_class = RideSummarySerializer
+    serializer_class = DriverHistorySerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):

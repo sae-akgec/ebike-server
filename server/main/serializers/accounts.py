@@ -163,12 +163,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileUserSerializer(serializers.ModelSerializer):
 
-    image = serializers.ImageField(source='profile.image')
-    phn_no = serializers.CharField(source='profile.phn_no')
+    image = serializers.ImageField(source='userprofile.image')
+    phn_no = serializers.CharField(source='userprofile.phn_no')
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'image']
+        fields = ['first_name', 'last_name', 'image', 'phn_no']
 
 class UserProfileSerializer(serializers.ModelSerializer):
 

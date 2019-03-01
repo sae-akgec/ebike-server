@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ..models.bike import Bike, BikeAccess, BikeAccessRequest, BikeStatus, RideSummary
-
+from .accounts import ProfileUserSerializer
 
 class BikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,7 +23,20 @@ class BikeStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RideSummarySerializer(serializers.ModelSerializer):
-    bike = BikeSerializer(read_only=True)
+    class Meta:
+        model = RideSummary
+        fields = '__all__'
+
+class RideHistorySerializer(serializers.ModelSerializer):
+    driver = ProfileUserSerializer()
+
+    class Meta:
+        model = RideSummary
+        fields = '__all__'
+
+class DriverHistorySerializer(serializers.ModelSerializer):
+    bike = BikeSerializer()
+
     class Meta:
         model = RideSummary
         fields = '__all__'
