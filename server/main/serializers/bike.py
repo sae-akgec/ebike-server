@@ -12,6 +12,12 @@ class BikeAccessSerializer(serializers.ModelSerializer):
         model = BikeAccess
         fields = '__all__'
 
+class BikeAccessesSerializer(serializers.ModelSerializer):
+    user = ProfileUserSerializer(read_only=True)
+    class Meta:
+        model = BikeAccess
+        fields = '__all__'
+
 class BikeAccessRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = BikeAccessRequest

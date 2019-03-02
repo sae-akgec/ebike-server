@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from ..models.bike import Bike, BikeAccess, BikeAccessRequest, BikeStatus, RideSummary
 from ..serializers.bike import (BikeSerializer, BikeAccessSerializer, BikeAccessRequestSerializer,
                                         BikeStatusSerializer, RideSummarySerializer, DriverAccessSerializer,
-                                        RideHistorySerializer, DriverHistorySerializer)
+                                        RideHistorySerializer, DriverHistorySerializer, BikeAccessesSerializer)
 
 class BikeView(ModelViewSet):
     queryset = Bike.objects.all()
@@ -15,6 +15,11 @@ class BikeView(ModelViewSet):
 class BikeAccessView(ModelViewSet):
     serializer_class = BikeAccessSerializer
     permission_classes = (AllowAny,)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return BikeAccessesSerializer
+        return super(BikeAccessView, self).get_serializer_class()
 
     def get_queryset(self):
         return BikeAccess.objects.filter(bike=self.kwargs['bike_pk'])
